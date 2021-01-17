@@ -3,17 +3,54 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pslib-jtool</groupId>
+	<groupId>com.pslib.jtool</groupId>
 	<artifactId>pslib-jtool</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 
 	<name>pslib-jtool</name>
 	<description>pslib-jtool</description>
 
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<projectUrl>https://github.com/Andyfoo/pslib-jtool.git</projectUrl>
+		<serverId>sonatype_releases</serverId>
 	</properties>
+	<url>${projectUrl}</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo,manual</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Andyfoo</name>
+			<email>andyfoo@163.com</email>
+			<organization>pslib.com</organization>
+			<url>https://github.com/Andyfoo/pslib-jtool</url>
+		</developer>
+	</developers>
+	<scm>
+		<tag>main</tag>
+		<url>git@github.com:Andyfoo/pslib-jtool.git</url>
+		<connection>scm:git:git@github.com:Andyfoo/pslib-jtool.git</connection>
+		<developerConnection>scm:git:git@github.com:Andyfoo/pslib-jtool.git</developerConnection>
+	</scm>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>${serverId}</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -151,6 +188,49 @@
 					</excludes>
 				</configuration>
 
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>gpg</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<failOnError>false</failOnError>
+					<doclint>none</doclint>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>${serverId}</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
