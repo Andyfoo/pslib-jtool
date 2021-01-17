@@ -25,3 +25,13 @@ hs_err_pid*
 /.project
 /target
 /.settings
+/pslib-jtool-captcha/.settings
+/pslib-jtool-core/.settings
+/pslib-jtool-core/.classpath
+/pslib-jtool-core/.project
+/pslib-jtool-core/target
+/pslib-jtool-captcha/target
+/pslib-jtool-captcha/.classpath
+/pslib-jtool-captcha/.project
+/*.bat
+/*.bat
