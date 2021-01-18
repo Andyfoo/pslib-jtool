@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>com.pslib.jtool</groupId>
 		<artifactId>pslib-jtool-parent</artifactId>
-		<version>1.0.3</version>
+		<version>1.0.4</version>
 	</parent>
 
 	<artifactId>pslib-jtool-captcha</artifactId>
@@ -32,4 +32,49 @@
 			<version>0.4.13</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<!-- ´´½¨Ô´Âëjar -->
+							<createSourcesJar>true</createSourcesJar>
+							
+							<relocations>
+								<relocation>
+									<pattern>net.coobird</pattern>
+									<shadedPattern>com.pslib.jtool.coobird</shadedPattern>
+									<excludes>
+									</excludes>
+								</relocation>
+							</relocations>
+							<artifactSet>
+								<includes>
+									<include>net.coobird:*:*</include>
+									<include>com.pslib.jtool.coobird:*:*</include>
+								</includes>
+							</artifactSet>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/maven/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
