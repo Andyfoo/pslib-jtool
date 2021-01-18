@@ -1,0 +1,6 @@
+<div>
+222222222222 ${headimgurl}
+</div>
+
+
+<% include "./c.wit"; %>

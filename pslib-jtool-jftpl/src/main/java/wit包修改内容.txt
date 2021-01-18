@@ -1,0 +1,33 @@
+本项目要支持多皮肤功能，所以要修改wit原有的包来支持include和import的子文件多皮肤。
+
+
+#################################
+org.febit.wit.Engine.java:86行修改(wit-2.6.0开始是73行)
+--------------------------------
+	public Template getTemplate(final String parentName, final String name) throws ResourceNotFoundException {
+		int pos = parentName.indexOf("|");
+		if(pos > -1 && name.indexOf("|") == -1){
+			return getTemplate(this.loader.concat(parentName, name + parentName.substring(pos)));
+		}
+		return getTemplate(this.loader.concat(parentName, name));
+	}
+#################################
+
+#################################
+springmvc配置
+--------------------------------
+	<bean class="com.pslib.jtool.jftpl.springmvc.TemplateViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="suffix" value=".html" />
+		<property name="tplPreProcess">
+			<bean class="com.pslib.jtool.jftpl.demo.TplPreProcess" />
+		</property>
+		<property name="props">
+			<props>
+				<prop key="root">/tpl/</prop>
+				<prop key="encoding">UTF-8</prop>
+				<prop key="registers">自定义函数类</prop>
+			</props>
+		</property>
+	</bean>
+#################################

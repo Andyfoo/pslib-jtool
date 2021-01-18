@@ -35,3 +35,8 @@ hs_err_pid*
 /pslib-jtool-captcha/.project
 /*.bat
 /*.bat
+/pslib-jtool-jftpl/.settings
+/pslib-jtool-jftpl/.classpath
+/pslib-jtool-jftpl/.gitignore
+/pslib-jtool-jftpl/.project
+/pslib-jtool-jftpl/target

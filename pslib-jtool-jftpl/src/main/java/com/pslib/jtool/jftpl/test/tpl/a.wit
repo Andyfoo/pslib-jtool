@@ -1,0 +1,6 @@
+1111111111111111
+1111111111111111
+<img src="images/a.jpg"/>
+
+${aaaa}
+<% include "./b.wit"; %>
