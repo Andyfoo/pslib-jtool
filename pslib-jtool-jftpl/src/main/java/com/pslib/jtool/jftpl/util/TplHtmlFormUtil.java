@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TplHtmlFormUtil {
-	protected final static Logger logger = LogManager.getLogger(TplHtmlFormUtil.class);
+	protected static final Logger logger = LoggerFactory.getLogger(TplHtmlFormUtil.class);
 
 	// public class AdminRoleConst {
 	//

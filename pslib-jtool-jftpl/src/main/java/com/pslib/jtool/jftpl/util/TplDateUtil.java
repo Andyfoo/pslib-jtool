@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  *         功能说明：日期相关工具函数
  */
 public class TplDateUtil {
-	protected final static Logger logger = LogManager.getLogger(TplDateUtil.class);
+	protected static final Logger logger = LoggerFactory.getLogger(TplDateUtil.class);
 
 	// private static String defaultDatePattern = "yyyyMMdd HH:mm:ss";
 	// private static String timePattern = "HH:mm";

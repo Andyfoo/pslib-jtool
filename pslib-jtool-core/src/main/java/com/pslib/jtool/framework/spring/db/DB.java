@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -442,12 +443,12 @@ public class DB {
 		} finally {
 			tran.commit(status);
 		}
-		
 
 		if (debug)
 			log.info("exe sql finish:" + DbTool.runTime(t));
 		return r;
 	}
+
 	/**
 	 * 替换更新记录，MySQL专用
 	 * 
@@ -1186,8 +1187,11 @@ public class DB {
 		}
 		if (debug)
 			log.info("exe sql start" + debugSql(sql, param));
-
-		int r = jtpl.queryForObject(sql, param, Integer.class);
+			int r = jtpl.queryForObject(sql, new RowMapper<Integer>() {
+				public Integer mapRow(java.sql.ResultSet res, int index) throws SQLException {
+					return res.getInt(0);
+				}
+			}, param);
 		// System.out.println(r);
 		if (debug)
 			log.info("exe sql finish:" + DbTool.runTime(t));
@@ -1233,7 +1237,11 @@ public class DB {
 		double t = DbTool.getTime();
 		if (debug)
 			log.info("exe sql start" + debugSql(sql, param));
-		int r = jtpl.queryForObject(sql, param, Integer.class);
+		int r = jtpl.queryForObject(sql, new RowMapper<Integer>() {
+			public Integer mapRow(java.sql.ResultSet res, int index) throws SQLException {
+				return res.getInt(0);
+			}
+		}, param);
 		if (debug)
 			log.info("exe sql finish:" + DbTool.runTime(t));
 		return r;
@@ -1279,7 +1287,11 @@ public class DB {
 		if (debug)
 			log.info("exe sql start" + debugSql(sql, param));
 
-		long r = jtpl.queryForObject(sql, param, Long.class);
+		long r = jtpl.queryForObject(sql, new RowMapper<Long>() {
+			public Long mapRow(java.sql.ResultSet res, int index) throws SQLException {
+				return res.getLong(0);
+			}
+		}, param);
 		if (debug)
 			log.info("exe sql finish:" + DbTool.runTime(t));
 		return r;
@@ -1346,14 +1358,14 @@ public class DB {
 		List<Object> param2 = new ArrayList<Object>();
 		int len = param.size();
 		Object item;
-		for(int i = 0; i < len;i++) {
+		for (int i = 0; i < len; i++) {
 			item = param.get(i);
 			if (item instanceof java.util.Date) {
-				param2.add(DateUtil.getDate((Date)item, "yyyy-MM-dd HH:mm:ss"));
-			}else {
+				param2.add(DateUtil.getDate((Date) item, "yyyy-MM-dd HH:mm:ss"));
+			} else {
 				param2.add(String.valueOf(item));
 			}
-			
+
 		}
 		return SqlFormatter.format(sql, "\t", param2);
 	}
@@ -1455,24 +1467,24 @@ public class DB {
 
 	/**
 	 * @param args
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
 		DB t1 = new DB();
-		t1.debug=true;
+		t1.debug = true;
 		JSONObject map = new JSONObject();
 		map.set("sms_mobile", "sadfsa");
 		map.set("sms_vcode", "1111");
 		map.set("sms_create_time", new Date());
 		t1.q_insert("sms_vcode", map);
-		
+
 		List<Object> param = new java.util.ArrayList<Object>();
 		param.add(333);
 		param.add("test");
 		Object[] param2 = new Object[] { new Date() };
 
-		//System.out.println(t1.formatSql("select * from aa order by ccd,bbs"));
-		//System.out.println(t1.formatSql("select * from aa where tt=? and bb=? order by ccd,bbs", param));
+		// System.out.println(t1.formatSql("select * from aa order by ccd,bbs"));
+		// System.out.println(t1.formatSql("select * from aa where tt=? and bb=? order by ccd,bbs", param));
 		System.out.println(t1.debugSql("select * from aa where tt=? order by ccd,bbs", param2));
 //		System.out.println(t1.formatSql(
 //				"SELECT t1.*,t2.cat_name,(select aa from aaa),(select bb from bbb) FROM wiki_doc t1 left join wiki_catalog t2 on t1.doc_cid=t2.cat_id WHERE 1=1  and FIND_IN_SET(t1.doc_cid, (select cat_child from wiki_catalog where cat_id=?) )>0 ORDER BY doc_id DESC",
