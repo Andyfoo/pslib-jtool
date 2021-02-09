@@ -63,7 +63,14 @@ public class NetUtil {
 		// cookies1.setHttpOnly(false);
 		response.addCookie(cookies1);
 	}
-
+	public static void addCookieHttpOnly(HttpServletRequest request, HttpServletResponse response, String name, String val, int time) {
+		Cookie cookies1 = new Cookie(name, val);
+		cookies1.setPath("/");
+		cookies1.setSecure(request.getScheme().equals("https"));
+		cookies1.setMaxAge(time);
+		cookies1.setHttpOnly(true);
+		response.addCookie(cookies1);
+	}
 	/**
 	 * 获取当前域名下的全局cookie域名
 	 * 
